@@ -2,6 +2,7 @@
 
 # TikTok MCP
 
+[![npm](https://img.shields.io/npm/v/@thenavidm/tiktok-mcp?color=orange&label=npm)](https://www.npmjs.com/package/@thenavidm/tiktok-mcp)
 [![License](https://img.shields.io/badge/License-MIT-green)](./LICENSE)
 [![CI](https://img.shields.io/github/actions/workflow/status/navidmoazzez/tiktok-mcp/ci.yml?branch=main&label=CI)](https://github.com/navidmoazzez/tiktok-mcp/actions)
 [![YouTube](https://img.shields.io/badge/YouTube-@thenavidm-red?logo=youtube&logoColor=white)](https://youtube.com/@thenavidm?sub_confirmation=1)
@@ -61,10 +62,6 @@ Claude: [stats_summary → top_videos]
 The thing you cannot do anywhere else: **rank your own catalogue by a metric TikTok's app will not sort by.** The app shows you a grid ordered by date. Asking "which posts actually travelled, by shares, across two hundred videos" has no answer inside TikTok, and it is one call here.
 
 ## 2. Quick install ⚡
-
-> [!IMPORTANT]
-> Not on npm yet. The `npx` lines throughout this README are the install once
-> the package is published, and they will not resolve before then.
 
 Node 20 or newer. Nothing else.
 
