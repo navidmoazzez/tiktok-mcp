@@ -7,6 +7,7 @@
 [![CI](https://img.shields.io/github/actions/workflow/status/navidmoazzez/tiktok-mcp/ci.yml?branch=main&label=CI)](https://github.com/navidmoazzez/tiktok-mcp/actions)
 [![YouTube](https://img.shields.io/badge/YouTube-@thenavidm-red?logo=youtube&logoColor=white)](https://youtube.com/@thenavidm?sub_confirmation=1)
 [![X](https://img.shields.io/badge/X-@thenavidm-black?logo=x)](https://x.com/thenavidm)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-thenavidm-0A66C2?logo=linkedin&logoColor=white)](https://linkedin.com/in/thenavidm)
 
 TikTok MCP server for Claude Code and AI agents. Profile, video stats, top posts, publishing, drafts and post status for your own account.
 
