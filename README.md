@@ -42,11 +42,12 @@ Claude: [stats_summary → top_videos]
 | 3 | [Set up your TikTok app](#3-set-up-your-tiktok-app-) | Every click |
 | 4 | [Connect your client](#4-connect-your-client-) | Claude Code, Desktop, Cursor |
 | 5 | [Check it worked](#5-check-it-worked-) | `doctor` |
-| 6 | [Tools](#6-tools-) | All 14, by what they reach |
-| 7 | [Writing safely](#7-writing-safely-) | What is guarded and what is not |
-| 8 | [Notes and gotchas](#8-notes-and-gotchas-) | The platform's real behaviour |
-| 9 | [Troubleshooting](#9-troubleshooting-) | Symptom to cause |
-| 10 | [FAQ](#10-faq-) | Including what an MCP server is |
+| 6 | [What it costs to have connected](#6-what-it-costs-to-have-connected) | Tokens per turn, and how to spend less |
+| 7 | [Tools](#7-tools-) | All 14, by what they reach |
+| 8 | [Writing safely](#8-writing-safely-) | What is guarded and what is not |
+| 9 | [Notes and gotchas](#9-notes-and-gotchas-) | The platform's real behaviour |
+| 10 | [Troubleshooting](#10-troubleshooting-) | Symptom to cause |
+| 11 | [FAQ](#11-faq-) | Including what an MCP server is |
 
 ## 1. What you can ask it 💬
 
@@ -252,7 +253,29 @@ The two failures that actually happen:
 | `token rejected` | Your refresh token expired or was revoked. Run `auth` again. |
 | `publishing unavailable` | The account never granted `video.publish`. Add the Content Posting API product, then `auth --publish`. |
 
-## 6. Tools 🛠️
+## 6. What it costs to have connected
+
+Every MCP server sends its whole tool list to the model on **every turn**,
+whether you mention it or not. Measured on this one:
+
+| | Sent per turn |
+|---|---|
+| 14 tool definitions, plus the server instructions | **~4,600 tokens** |
+
+That is the price of it being connected at all, before you ask anything. It is
+not unusual, and almost nobody publishes it.
+
+Two ways to spend less.
+
+**Turn it off when you are not using it.** In Claude Code that is
+`@tiktok` to toggle, and every client has an equivalent.
+
+**Or reach for a shell instead.** A command is not in the context window, so it
+costs nothing on the turns you do not use it. It is not free either: an agent
+still needs the skill file, roughly 1,122 tokens, but only once the subject
+comes up rather than on every turn regardless.
+
+## 7. Tools 🛠️
 
 **Your account**
 
@@ -283,7 +306,7 @@ The two failures that actually happen:
 | `send_photos_to_drafts` | Send photos to your inbox |
 | `get_post_status` | Track a post through download, moderation and publication |
 
-## 7. Writing safely 🛟
+## 8. Writing safely 🛟
 
 Writes work by default. Publishing is the point of the tool.
 
@@ -297,7 +320,7 @@ The three actions that cannot be undone from a chat window take `confirm: true`:
 
 Captions and bios reach the model fenced and labelled as somebody else's words. That framing helps and it is not a guarantee. For an agent working unattended, `TIKTOK_READ_ONLY=1` is the real defence.
 
-## 8. Notes and gotchas ⚠️
+## 9. Notes and gotchas ⚠️
 
 - **It can only see your own account.** TikTok's official API has no endpoint for anybody else's profile, videos, comments, followers, hashtags or search. Nothing here answers a question about a competitor or a trend, and no API key changes that.
 - **There is no comments API.** You cannot read or reply to comments on your own posts through TikTok's official API.
@@ -312,7 +335,7 @@ Captions and bios reach the model fenced and labelled as somebody else's words. 
 - **Rate limits are per account:** six posting calls a minute, thirty status checks, twenty creator-info queries.
 - **Only public videos are visible.** Private and draft videos do not appear in `list_videos`.
 
-## 9. Troubleshooting 🔧
+## 10. Troubleshooting 🔧
 
 Run `doctor` first. It checks every account and names what is unavailable.
 
@@ -329,7 +352,7 @@ Run `doctor` first. It checks every account and names what is unavailable.
 | Only nine tools appear | `TIKTOK_READ_ONLY=1` is set |
 | Nothing appears in Claude Desktop | It does not inherit your PATH. Use the absolute `npx` path and fully quit the app |
 
-## 10. FAQ ❓
+## 11. FAQ ❓
 
 <details>
 <summary><b>What is an MCP server?</b></summary>
