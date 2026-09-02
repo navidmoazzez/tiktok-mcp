@@ -1,11 +1,16 @@
 ---
 name: tiktok-mcp
-description: Drive a TikTok account through the official API. Use when reading a connected account's profile, follower count, video stats or best-performing posts, when publishing a video or photo carousel to TikTok, when sending a draft to the creator's TikTok inbox, or when tracking a post through moderation. Also use when someone asks what TikTok's API can and cannot see, because most of what people expect from it does not exist.
+description: |
+  Drive a TikTok account through the official API. Use when reading a connected account's
+  profile, follower count, video stats or best-performing posts, when publishing a video
+  or photo carousel to TikTok, when sending a draft to the creator's TikTok inbox, or when
+  tracking a post through moderation. Also use when someone asks what TikTok's API can and
+  cannot see, because most of what people expect from it does not exist.
 ---
 
 # Driving TikTok
 
-## What is not here, and will not be
+## When not to reach for this
 
 These tools reach **only the account the user connected**. TikTok's official API
 has no endpoint for anybody else's profile, videos, comments, followers, search,
