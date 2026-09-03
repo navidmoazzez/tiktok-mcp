@@ -42,8 +42,19 @@ export function annotationsFor(risk: Risk, opts: { idempotent?: boolean } = {}):
   };
 }
 
+/** Which surface a guard is protecting, so refusals name the right syntax. */
+export type Surface = "mcp" | "cli";
+
 export class WriteGuard {
-  constructor(private readonly config: Config) {}
+  constructor(
+    private readonly config: Config,
+    private readonly surface: Surface = "mcp",
+  ) {}
+
+  /** `--confirm` in a terminal, `confirm: true` in a tool call. */
+  private get confirmFlag(): string {
+    return this.surface === "cli" ? "--confirm" : "confirm: true";
+  }
 
   get readOnly(): boolean {
     return this.config.readOnly;
@@ -69,12 +80,12 @@ export class WriteGuard {
     return true;
   }
 
-  /** Throw unless an irreversible call carried `confirm: true`. */
+  /** Throw unless an irreversible call carried an explicit confirmation. */
   check(tool: string, risk: Risk, confirm: boolean | undefined, summary: string): void {
     if (risk === "destructive" && confirm !== true) {
       this.record({ tool, allowed: false, summary });
       throw new Error(
-        `${tool} is not reversible from a chat window, so it needs confirm: true. ${summary}`,
+        `${tool} is not reversible, so it needs ${this.confirmFlag}. Nothing has been changed. ${summary}`,
       );
     }
     this.record({ tool, allowed: true, summary });

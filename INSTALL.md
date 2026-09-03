@@ -1,4 +1,6 @@
-# Setting up a TikTok app, in full
+# Install
+
+## Setting up a TikTok app, in full
 
 The README has the short version. This is the one to read when something in it
 did not work, or when you are deciding between Sandbox and Production.

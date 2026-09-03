@@ -60,9 +60,10 @@ passed through raw.
 | `src/api/` | HTTP client, token refresh, error mapping |
 | `src/tools/` | One module per group, plus `kit.ts` which registers them |
 | `src/format/` | Shaping payloads for a model |
+| `src/cli.ts` | The CLI adapter: flags derived from the same Zod schemas |
 | `src/safety.ts` | Guard, annotations, injection framing |
 | `src/auth.ts` | The loopback OAuth flow |
-| `references/setup.md` | Long-form auth walkthrough |
+| `INSTALL.md` | Long-form auth walkthrough |
 
 ## Adding a tool
 

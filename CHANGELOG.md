@@ -7,6 +7,24 @@
 | TikTok Content Posting API | v2 |
 | Node | >= 20 |
 
+## Unreleased
+
+A second surface. The same 14 tools now run as `tiktok-cli` shell commands,
+generated from the one `ALL_TOOLS` array through the same handlers and the same
+`WriteGuard`, so the two surfaces cannot drift. `--agent` and `--select` make a
+long video list affordable to an agent, and exit codes let a script branch
+without parsing a message.
+
+A refusal now names the syntax of the surface it happened on: `--confirm` in a
+terminal, `confirm: true` in a tool call.
+
+Fixed: a missing credential exited 4, the code for a rejected token, because
+the message mentions a refresh token. It exits 10 now, and the three
+`TIKTOK_HTTP_*` variables reached neither `--help` nor the README.
+
+The long-form auth walkthrough moved from `references/setup.md` to `INSTALL.md`.
+Nothing under `references/` was in `files`, so it shipped to nobody.
+
 ## 1.0.0
 
 First release. 14 tools over TikTok's official Login Kit, Display API and

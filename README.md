@@ -77,6 +77,8 @@ Installing the package needs no TikTok account. Only the next section does.
 
 TikTok has no personal access tokens. Every integration goes through an app you create, which is more work than most services and is the same for everybody.
 
+The steps below are the short version. [INSTALL.md](INSTALL.md) is the long one: read it when something here did not work, or when you are deciding between Sandbox and Production.
+
 > [!TIP]
 > Use **Sandbox** mode while you set this up. A sandbox app works immediately with no review, against TikTok accounts you add to it yourself. Only switch to Production when you want other people to use it.
 
@@ -231,6 +233,12 @@ npx -y @thenavidm/tiktok-mcp@latest --http --port 8000
 ```
 
 It binds `127.0.0.1` and refuses any other host without `TIKTOK_HTTP_TOKEN` set, because anything that can reach the port can publish to the connected account.
+
+| Variable | What it does |
+|---|---|
+| `TIKTOK_HTTP_PORT` | Port to listen on. Default `8000`, and `--port` overrides it |
+| `TIKTOK_HTTP_HOST` | Interface to bind. Default `127.0.0.1` |
+| `TIKTOK_HTTP_TOKEN` | Bearer token required on every request. Mandatory on any host but `127.0.0.1` |
 
 ### More than one account
 

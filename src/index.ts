@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { runAuth } from "./auth.js";
+import { isCliCommand, runCli } from "./cli.js";
 import { loadConfig } from "./config.js";
 import { runDoctor } from "./doctor.js";
 import { buildServer, VERSION } from "./server.js";
@@ -24,6 +25,11 @@ const HELP = `tiktok-mcp ${VERSION}
   tiktok-mcp doctor          test every credential and say what is unavailable
   tiktok-mcp --version
 
+  tiktok-cli                 list every command, one line each, writes marked
+  tiktok-cli <command>       run one tool from the shell
+  tiktok-cli <command> --help
+                             its arguments, types, and which are required
+
 Environment:
   TIKTOK_CLIENT_KEY          from your app on developers.tiktok.com
   TIKTOK_CLIENT_SECRET
@@ -32,7 +38,22 @@ Environment:
   TIKTOK_READ_ONLY=1         hide every write tool
   TIKTOK_ALLOW_DESTRUCTIVE=0 keep drafts, hide publishing
   TIKTOK_AUDIT_LOG=<path>    one JSON line per attempted write
+
+HTTP transport:
+  TIKTOK_HTTP_PORT           default 8000, --port overrides it
+  TIKTOK_HTTP_HOST           default 127.0.0.1
+  TIKTOK_HTTP_TOKEN          bearer token, required on any other host
 `;
+
+/**
+ * Words that are not tools but are still meant to work from either binary.
+ *
+ * `tiktok-cli auth` and `tiktok-cli doctor` are the two commands a person
+ * reaches for when nothing works yet, so rejecting them as unknown from the
+ * binary they already have in their fingers would be the wrong answer at the
+ * worst moment.
+ */
+const CLI_PASSTHROUGH = new Set(["auth", "doctor", "help"]);
 
 function flagValue(argv: string[], name: string): string | undefined {
   const i = argv.indexOf(name);
@@ -40,9 +61,43 @@ function flagValue(argv: string[], name: string): string | undefined {
   return argv[i + 1];
 }
 
+/**
+ * One entry point, two programs. `tiktok-mcp` is the server and must stay
+ * silent on stdout; `tiktok-cli` is the one a person types. Running the CLI
+ * binary with no arguments is someone asking what they can type, so it lists
+ * the commands rather than hanging on a transport that will never speak.
+ */
+function invokedAsCli(): boolean {
+  const name = (process.argv[1] ?? "").split("/").pop() ?? "";
+  return name.startsWith("tiktok-cli");
+}
+
 async function main(): Promise<void> {
   const argv = process.argv.slice(2);
   const command = argv.find((a) => !a.startsWith("-"));
+  const first = argv[0];
+
+  if (invokedAsCli() && argv.length === 0) {
+    process.exitCode = await runCli(["tools"]);
+    return;
+  }
+
+  // Checked before --help and --version so `<tool> --help` reaches the tool.
+  // A bare `--help` starts with a dash, so it falls through to the block below.
+  if (isCliCommand(argv)) {
+    process.exitCode = await runCli(argv);
+    return;
+  }
+
+  // An unknown word used to fall through and start the server, which then sat
+  // waiting on stdin: a typo looked like a hang, and scripts saw exit code 0.
+  if (invokedAsCli() && first !== undefined && !first.startsWith("-") && !CLI_PASSTHROUGH.has(first)) {
+    process.stderr.write(
+      `${JSON.stringify({ error: `Unknown command '${first}'. Run \`tiktok-cli\` to list them.` }, null, 2)}\n`,
+    );
+    process.exitCode = 1;
+    return;
+  }
 
   if (argv.includes("--version") || argv.includes("-v")) {
     console.log(VERSION);
