@@ -15,7 +15,7 @@ metadata:
     bins: [tiktok-cli]
   install:
     kind: npm
-    package: "@thenavidm/tiktok-mcp"
+    package: "@thenavidm/tiktok-mcp-cli"
     bins: [tiktok-cli, tiktok-mcp]
 ---
 
@@ -35,7 +35,7 @@ tiktok-cli --version
 If that fails:
 
 ```bash
-npm i -g @thenavidm/tiktok-mcp
+npm i -g @thenavidm/tiktok-mcp-cli
 ```
 
 If `--version` still reports command not found, the install directory is not on
@@ -128,7 +128,7 @@ rather than implying the whole account was searched.
 | Code | Meaning |
 |---|---|
 | 0 | Success |
-| 2 | Usage error, wrong or missing arguments |
+| 2 | Usage error: wrong or missing arguments, or a write refused for want of `--confirm` |
 | 3 | Not found |
 | 4 | Authentication rejected, usually an expired refresh token |
 | 5 | API error upstream |
@@ -205,7 +205,7 @@ claude mcp add tiktok \
   -e TIKTOK_CLIENT_KEY=your_client_key \
   -e TIKTOK_CLIENT_SECRET=your_client_secret \
   -e TIKTOK_REFRESH_TOKEN=your_refresh_token \
-  -- npx -y @thenavidm/tiktok-mcp
+  -- npx -y @thenavidm/tiktok-mcp-cli
 ```
 
 Verify with `claude mcp list`. Every other client, and the long-form

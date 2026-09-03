@@ -34,7 +34,7 @@ Stop and wait at each step that needs me. Do not guess a value.
 
 Start in Sandbox.
 
-| | Sandbox | Production |
+| Aspect | Sandbox | Production |
 |---|---|---|
 | App review | not needed | required before anyone can use it |
 | Who can authorise | TikTok accounts you add to the sandbox | anyone, once approved |
@@ -130,10 +130,10 @@ the better path: the post ends up public with the creator's own hand on it.
 
 ## Token lifetimes
 
-| | Lives |
+| Credential | Lives |
 |---|---|
 | Access token | 24 hours |
-| Refresh token | 365 days, and rotates on every use |
+| Refresh token | 365 days. A refresh may return a different one, so the server keeps whatever comes back |
 
 The server handles the first entirely. The second is why `doctor` exists: when
 a year has passed the failure is a rejected token on every call, and the fix is
