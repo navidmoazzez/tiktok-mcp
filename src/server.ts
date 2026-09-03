@@ -1,10 +1,19 @@
+import { createRequire } from "node:module";
+
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { loadConfig, type Config } from "./config.js";
 import { WriteGuard } from "./safety.js";
 import { ALL_TOOLS } from "./tools/index.js";
 import { makeContext, register } from "./tools/kit.js";
 
-export const VERSION = "1.0.0";
+/**
+ * Read from package.json rather than repeated here.
+ *
+ * A hardcoded copy silently drifts: a release bumps one and not the other, and
+ * `--version` answers a number that was never published.
+ */
+const require = createRequire(import.meta.url);
+export const VERSION: string = (require("../package.json") as { version: string }).version;
 
 /**
  * Server instructions reach the model before the first tool result does, so
