@@ -1,0 +1,71 @@
+{
+  "manifest_version": "0.2",
+  "name": "tiktok",
+  "display_name": "TikTok",
+  "version": "1.1.0",
+  "description": "TikTok MCP server and CLI for Claude Code and AI agents. 14 tools for your profile, video stats, top posts, publishing videos and photo carousels, drafts and post status.",
+  "long_description": "Connects Claude to your own TikTok account through TikTok's official Display and Content Posting APIs.\n\nTikTok issues no personal access tokens, so setup starts with an app you register at developers.tiktok.com. Run `npx -y @thenavidm/tiktok-mcp-cli auth` once to turn that app's client key and secret into a refresh token, then paste all three below.\n\nIt reads your real numbers: views, likes, comments and shares per post, and ranks your catalogue by a metric the TikTok app will not sort by. It publishes too, as a post or as a draft into your TikTok inbox.\n\nPublishing is public the moment moderation clears it, so post_video, post_photos and revoke_access refuse to run without an explicit confirmation.\n\nIt only ever reaches accounts you connect yourself. TikTok's official API has no endpoint for anybody else's profile, videos, comments, search or trends.",
+  "author": { "name": "Navid Moazzez", "url": "https://navid.me" },
+  "repository": { "type": "git", "url": "https://github.com/thenavidm/tiktok-mcp-cli" },
+  "homepage": "https://github.com/thenavidm/tiktok-mcp-cli",
+  "documentation": "https://github.com/thenavidm/tiktok-mcp-cli#readme",
+  "support": "https://github.com/thenavidm/tiktok-mcp-cli/issues",
+  "license": "MIT",
+  "keywords": ["tiktok", "tiktok-api", "social", "content-creation", "mcp"],
+  "server": {
+    "type": "node",
+    "entry_point": "server/index.js",
+    "mcp_config": {
+      "command": "node",
+      "args": ["${__dirname}/server/index.js"],
+      "env": {
+        "TIKTOK_CLIENT_KEY": "${user_config.client_key}",
+        "TIKTOK_CLIENT_SECRET": "${user_config.client_secret}",
+        "TIKTOK_REFRESH_TOKEN": "${user_config.refresh_token}",
+        "TIKTOK_READ_ONLY": "${user_config.read_only}",
+        "TIKTOK_ALLOW_DESTRUCTIVE": "${user_config.allow_publishing}"
+      }
+    }
+  },
+  "user_config": {
+    "client_key": {
+      "type": "string",
+      "title": "Client key",
+      "description": "From the Credentials section of your app at developers.tiktok.com.",
+      "required": true
+    },
+    "client_secret": {
+      "type": "string",
+      "title": "Client secret",
+      "description": "From the same Credentials section. Stored in your operating system keychain.",
+      "sensitive": true,
+      "required": true
+    },
+    "refresh_token": {
+      "type": "string",
+      "title": "Refresh token",
+      "description": "Run `npx -y @thenavidm/tiktok-mcp-cli auth` in a terminal with the two values above set, approve the sign-in, and paste what it prints.",
+      "sensitive": true,
+      "required": true
+    },
+    "read_only": {
+      "type": "boolean",
+      "title": "Read only",
+      "description": "Hide every tool that can post, draft or revoke access, leaving the 9 reading tools.",
+      "default": false,
+      "required": false
+    },
+    "allow_publishing": {
+      "type": "boolean",
+      "title": "Allow publishing",
+      "description": "Turn this off to keep the drafts tools and hide the ones that post straight to TikTok.",
+      "default": true,
+      "required": false
+    }
+  },
+  "compatibility": {
+    "claude_desktop": ">=0.10.0",
+    "platforms": ["darwin", "win32", "linux"],
+    "runtimes": { "node": ">=20" }
+  }
+}

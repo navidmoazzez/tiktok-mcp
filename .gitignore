@@ -6,3 +6,5 @@ dist
 .DS_Store
 *.jsonl
 .tiktok-mcp
+desktop-extension/build/
+desktop-extension/*.mcpb
