@@ -1,4 +1,4 @@
-# Working on tiktok-mcp
+# Working on tiktok-mcp-cli
 
 For agents editing this repo. Installation belongs in the README.
 
@@ -23,10 +23,10 @@ node dist/index.js   # then drive it with an MCP client
 
 Do not re-derive these.
 
-| | |
+| Decision | Settled as |
 |---|---|
 | Language | TypeScript, Node >= 20, ESM |
-| Package | `@thenavidm/tiktok-mcp` on npm |
+| Package | `@thenavidm/tiktok-mcp-cli` on npm |
 | Transport | stdio, and streamable HTTP behind `--http` |
 | Writes | on by default, `confirm` on the irreversible three only |
 
@@ -55,7 +55,7 @@ passed through raw.
 
 ## Where things are
 
-| Path | |
+| Path | What is in it |
 |---|---|
 | `src/api/` | HTTP client, token refresh, error mapping |
 | `src/tools/` | One module per group, plus `kit.ts` which registers them |
@@ -72,4 +72,17 @@ Define it with `defineTool`, add it to its module's exported array, and pick a
 `confirmArg` and provide a `summary` for the audit log.
 
 Then update the tool count in `package.json`, the README and the contents
-table, because three places carry it and they drift.
+table, because three places carry it and they drift. Every count in a doc is
+read off the running binary, never typed: `tiktok-cli tools` prints it, and
+`TIKTOK_READ_ONLY=1 tiktok-cli tools` prints the read-only one.
+
+## Building the desktop extension
+
+```bash
+npm run build:mcpb    # -> desktop-extension/tiktok-<version>.mcpb
+```
+
+It syncs the manifest version from `package.json`, vendors `node_modules` into
+the bundle, and validates the manifest. Unzip the result and run
+`node server/index.js` against a real MCP client before shipping it: the point
+of a `.mcpb` is that it works on a double click with nothing else installed.

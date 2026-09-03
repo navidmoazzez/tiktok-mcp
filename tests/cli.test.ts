@@ -143,7 +143,7 @@ describe("exitCodeFor", () => {
     // The message names a refresh token, so an auth-first order sent someone
     // who had configured nothing looking for an expired credential.
     const nothing = new Error(
-      "No TikTok account configured. Run `npx -y @thenavidm/tiktok-mcp auth` to get a refresh token, then set TIKTOK_REFRESH_TOKEN.",
+      "No TikTok account configured. Run `npx -y @thenavidm/tiktok-mcp-cli auth` to get a refresh token, then set TIKTOK_REFRESH_TOKEN.",
     );
     expect(exitCodeFor(nothing)).toBe(EXIT.config);
     expect(exitCodeFor(new TikTokError("TIKTOK_CLIENT_KEY and TIKTOK_CLIENT_SECRET are not set.", undefined, 0))).toBe(

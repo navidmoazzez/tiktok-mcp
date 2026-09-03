@@ -91,7 +91,7 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
 export function pickAccount(accounts: Account[], want?: string | null): Account {
   if (accounts.length === 0) {
     throw new Error(
-      "No TikTok account configured. Run `npx -y @thenavidm/tiktok-mcp auth` to get a refresh token, then set TIKTOK_REFRESH_TOKEN.",
+      "No TikTok account configured. Run `npx -y @thenavidm/tiktok-mcp-cli auth` to get a refresh token, then set TIKTOK_REFRESH_TOKEN.",
     );
   }
   if (!want) return accounts[0]!;

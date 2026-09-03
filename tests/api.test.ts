@@ -174,6 +174,6 @@ describe("accounts", () => {
   });
 
   it("points at the auth command when nothing is configured", () => {
-    expect(() => pickAccount([], undefined)).toThrow(/tiktok-mcp auth/);
+    expect(() => pickAccount([], undefined)).toThrow(/tiktok-mcp-cli auth/);
   });
 });
